@@ -85,11 +85,11 @@ function doPost(e) {
     todayList = getTodayList(user_message);
 
     // 返信する内容を作成
-    if (todayList == "") {
+    if (todayList == "" || todayList == "error") {
       reply_messages = [message.error];
     } else {
       console.log(todayList);
-      reply_messages = [todayList + "を買いなさいな。"];
+      reply_messages = todayList;
     }
   }
 
@@ -113,7 +113,6 @@ function doPost(e) {
 
 // 買い物リストから今日のリストを出力する
 function getTodayList(user_message) {
-  user_message = ["スギ薬局"];
   let today = getToday();
   let list = {};
   let count = 0;
@@ -138,11 +137,17 @@ function getTodayList(user_message) {
   console.log(list);
 
   let sendList = [];
-  for (i = 0; i < list.length; i++) {
-    sendList = sendList + list[i] + "\n";
+  for (let key in list) {
+    // 買い物リストが登録されていなければエラー
+    if (list[key].length == 0) return "error";
+    let sendItem = "";
+    for (i = 0; i < list[key].length; i++) {
+      sendItem = sendItem + list[key][i] + "\n";
+    }
+    sendList.push(key + "では、\n" + sendItem + "を買いなさいな");
   }
   console.log(sendList);
-  return sendList + "買いなさいな";
+  return sendList;
 }
 
 // 買い物リストの追加
