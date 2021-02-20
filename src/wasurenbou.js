@@ -1,6 +1,6 @@
 //CHANNEL_ACCESS_TOKENを設定
 //LINE developerで登録をした、CHANNEL_ACCESS_TOKENを入力する
-const CHANNEL_ACCESS_TOKEN = "6fA9vZ5Q+RMVBhxDvIMdPioTPAQyx596gjbihezQOT8grTS2MI98dVcpUFEaevo4yATuqiLeNNa2ky9u0C96GeeYRV8Uaha7mac04Vz0AbKNYFSI0zIqvNvtachlomMIOnsYLoRHSFSSPcm6OKuUjAdB04t89/1O/w1cDnyilFU="; 
+const CHANNEL_ACCESS_TOKEN = "6fA9vZ5Q+RMVBhxDvIMdPioTPAQyx596gjbihezQOT8grTS2MI98dVcpUFEaevo4yATuqiLeNNa2ky9u0C96GeeYRV8Uaha7mac04Vz0AbKNYFSI0zIqvNvtachlomMIOnsYLoRHSFSSPcm6OKuUjAdB04t89/1O/w1cDnyilFU=";
 const line_endpoint = "https://api.line.me/v2/bot/message/reply";
 const line_endpoint_push = "https://api.line.me/v2/bot/message/push";
 const line_endpoint_broadcast = "https://api.line.me/v2/bot/message/broadcast";
@@ -31,15 +31,15 @@ const column = {
   deadline: 3
 }
 
-// 毎日通知時間
+// 毎日通知時間（平日）
 const alert = {
   hour: 17,
   minute: 30
 }
 
-// 毎日通知時間
+// 毎日通知時間（休日）
 const alert_holiday = {
-  hour: 14,
+  hour: 12,
   minute: 30
 }
 
@@ -51,10 +51,10 @@ const toNextDay = "1900";
 
 //POSTデータ取得、JSONをパースする
 function doPost(e) {
-  var json = JSON.parse(e.postData.contents);
+  let json = JSON.parse(e.postData.contents);
 
   //返信するためのトークン取得
-  var reply_token= json.events[0].replyToken;
+  let reply_token= json.events[0].replyToken;
   if (typeof reply_token === 'undefined') {
     return;
   }
@@ -89,9 +89,9 @@ function doPost(e) {
   }
 
   // メッセージを返信（以下固定）
-  var messages = reply_messages.map(function (v) {
-    return {'type': 'text', 'text': v};    
-  });    
+  let messages = reply_messages.map(function (v) {
+    return {'type': 'text', 'text': v};
+  });
   UrlFetchApp.fetch(line_endpoint, {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -108,22 +108,22 @@ function doPost(e) {
 
 // 買い物リストから今日のリストを出力する
 function getTodayList(user_message) {
-  var today = getToday();
-  var list = [];
-  var count = 0;
-  for (var i = 2; i < lastrow + 1; i++) {
+  let today = getToday();
+  let list = [];
+  let count = 0;
+  for (let i = 2; i < lastrow + 1; i++) {
     let date = sheet.getRange(i, column.deadline).getValue();
     let textStore = user_message[0];
     let spreadStore = sheet.getRange(i, column.store).getValue();
     console.log(date);
     if (date == today && (textStore == stores.list || textStore == spreadStore)) {
       list[count] = sheet.getRange(i, column.target).getValue() + " (" + sheet.getRange(i, column.store).getValue() + ")";
-      count += 1; 
+      count += 1;
     }
   }
   console.log(list);
 
-  var sendList = "";
+  let sendList = "";
   for (i = 0; i < list.length; i++) {
     sendList = sendList + list[i] + "\n";
   }
@@ -176,9 +176,9 @@ function alertTodayList () {
   }
 
     // メッセージを返信（以下固定）
-  var messages = reply_messages.map(function (v) {
-    return {'type': 'text', 'text': v};    
-  });    
+  let messages = reply_messages.map(function (v) {
+    return {'type': 'text', 'text': v};
+  });
   UrlFetchApp.fetch(line_endpoint_broadcast, {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -199,13 +199,13 @@ function setTrigger() {
     // 土日は12:30に通知
   if (isHoliday) {
     time.setHours(alert_holiday.hour);
-    time.setMinutes(alert_holiday.minute);    
+    time.setMinutes(alert_holiday.minute);
   } else {
     // 平日は17:30に通知
     time.setHours(alert.hour);
     time.setMinutes(alert.minute);
   }
-  
+
   ScriptApp.newTrigger('alertTodayList').timeBased().at(time).create();
 }
 
