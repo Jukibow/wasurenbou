@@ -43,6 +43,11 @@ const alert_holiday = {
   minute: 30
 }
 
+// メッセージ
+const message = {
+  error: "何言ってんだおめえ",
+}
+
 // リスト追加の合言葉
 const addMassage = "追加";
 
@@ -71,7 +76,7 @@ function doPost(e) {
     // 追加の場合
     let result = addList(user_message);
     if(result == "error") {
-      reply_messages = ["何言ってんだおめえ"];
+      reply_messages = [message.error];
     } else {
       reply_messages = [user_message[1] + "に" + user_message[2] + "を登録しました。"]
     }
@@ -81,7 +86,7 @@ function doPost(e) {
 
     // 返信する内容を作成
     if (todayList == "") {
-      reply_messages = ["何言ってんだおめえ"];
+      reply_messages = [message.error];
     } else {
       console.log(todayList);
       reply_messages = [todayList + "を買いなさいな。"];
@@ -108,27 +113,36 @@ function doPost(e) {
 
 // 買い物リストから今日のリストを出力する
 function getTodayList(user_message) {
+  user_message = ["スギ薬局"];
   let today = getToday();
-  let list = [];
+  let list = {};
   let count = 0;
   for (let i = 2; i < lastrow + 1; i++) {
     let date = sheet.getRange(i, column.deadline).getValue();
     let textStore = user_message[0];
     let spreadStore = sheet.getRange(i, column.store).getValue();
+    let target = sheet.getRange(i, column.target).getValue();
     console.log(date);
-    if (date == today && (textStore == stores.list || textStore == spreadStore)) {
-      list[count] = sheet.getRange(i, column.target).getValue() + " (" + sheet.getRange(i, column.store).getValue() + ")";
-      count += 1;
+    // 送られたメッセージが"リスト"なら全て、それ以外なら対応する店を出力対象とする
+    if (date == today) {
+      if (textStore == stores.list) {
+        if (spreadStore in list) list[spreadStore].push(target);
+        else list[spreadStore] = [target];
+      } else if (textStore == spreadStore) {
+
+        if (typeof list[spreadStore] == "undefined") list[spreadStore] = [target];
+        else list[spreadStore].push(target);
+      }
     }
   }
   console.log(list);
 
-  let sendList = "";
+  let sendList = [];
   for (i = 0; i < list.length; i++) {
     sendList = sendList + list[i] + "\n";
   }
   console.log(sendList);
-  return sendList;
+  return sendList + "買いなさいな";
 }
 
 // 買い物リストの追加
@@ -165,7 +179,7 @@ function alertTodayList () {
   Logger.log("トリガーを削除しました。");
 
   // 買い物リスト取得の場合
-  todayList = getTodayList(["リスト"]);
+  todayList = getTodayList([stores.list]);
 
   // 返信する内容を作成
   if (todayList == "") {
