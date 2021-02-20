@@ -85,7 +85,7 @@ function doPost(e) {
     todayList = getTodayList(user_message);
 
     // 返信する内容を作成
-    if (todayList == "" || todayList == "error") {
+    if (todayList == [] || todayList == "error") {
       reply_messages = [message.error];
     } else {
       console.log(todayList);
@@ -115,7 +115,6 @@ function doPost(e) {
 function getTodayList(user_message) {
   let today = getToday();
   let list = {};
-  let count = 0;
   for (let i = 2; i < lastrow + 1; i++) {
     let date = sheet.getRange(i, column.deadline).getValue();
     let textStore = user_message[0];
@@ -138,8 +137,8 @@ function getTodayList(user_message) {
 
   let sendList = [];
   for (let key in list) {
-    // 買い物リストが登録されていなければエラー
-    if (list[key].length == 0) return "error";
+    // 買い物リストが登録されていなければ次へ
+    if (list[key].length == 0) continue;
     let sendItem = "";
     for (i = 0; i < list[key].length; i++) {
       sendItem = sendItem + list[key][i] + "\n";
@@ -187,7 +186,7 @@ function alertTodayList () {
   todayList = getTodayList([stores.list]);
 
   // 返信する内容を作成
-  if (todayList == "") {
+  if (todayList == []) {
     reply_messages = ["今日は買うものないよ"];
   } else {
     console.log(todayList);
@@ -216,7 +215,7 @@ function setTrigger() {
   const time = new Date();
   console.log(time);
     // 土日は12:30に通知
-  if (isHoliday) {
+  if (isHoliday(time)) {
     time.setHours(alert_holiday.hour);
     time.setMinutes(alert_holiday.minute);
   } else {
@@ -228,7 +227,7 @@ function setTrigger() {
   ScriptApp.newTrigger('alertTodayList').timeBased().at(time).create();
 }
 
-//　トリガーを削除
+// トリガーを削除
 function delTrigger() {
   const triggers = ScriptApp.getProjectTriggers();
   for (const trigger of triggers) {
@@ -240,7 +239,6 @@ function delTrigger() {
 
 // 休日を取得
 function isHoliday(date) {
-  date = new Date();
   // 土日の判定
   if (date.getDay() == 0 || date.getDay() == 6) return true;
   // 祝日の判定
