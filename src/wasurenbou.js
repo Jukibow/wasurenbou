@@ -52,7 +52,16 @@ const message = {
 const addMassage = "追加";
 
 // ヘルプ
-const helpMassage = "ヘルプ";
+const help = {
+  key: "ヘルプ",
+  message: "●追加したい場合\n" +
+    "「追加 (店舗) (商品) (期限)」と入力する。\n" +
+    "期限の入力の仕方は、20210220のように、年月日の順番で入力する。（/は無しで、2月なら02のように0をつける)" +
+    "期限は、入力しなければ今日で登録される。（19時以降は明日で登録される）\n\n" +
+    "●買い物リストが見たい場合\n" +
+    "全てが見たい場合は、「リスト」と入力し、店ごとに見たい場合は、登録した店舗名を入力する。" +
+    "メニューのボタンを押しても見れる。"
+}
 
 // 次の日の買い物リストに登録する時間
 const toNextDay = "1900";
@@ -75,8 +84,8 @@ function doPost(e) {
 
   let todayList;
   let reply_messages;
-  if (user_message[0] == helpMassage) {
-    reply_messages = [replyHelp()];
+  if (user_message[0] == help.key) {
+    reply_messages = [help.message];
   } else if (user_message[0] == addMassage) {
     // 追加の場合
     let result = addList(user_message);
@@ -90,7 +99,7 @@ function doPost(e) {
     todayList = getTodayList(user_message);
 
     // 返信する内容を作成
-    if (todayList == [] || todayList == "error") {
+    if (todayList.length == 0) {
       reply_messages = [message.error];
     } else {
       console.log(todayList);
@@ -254,18 +263,4 @@ function isHoliday(date) {
   if (events.length) return true;
 
   return false;
-}
-
-// ヘルプ
-function replyHelp() {
-  let message =
-    "●追加したい場合\n" +
-    "「追加 (店舗) (商品) (期限)」と入力する。\n" +
-    "期限の入力の仕方は、20210220のように、年月日の順番で入力する。（/は無しで、2月なら02のように0をつける)" +
-    "期限は、入力しなければ今日で登録される。（19時以降は明日で登録される）\n\n" +
-    "●買い物リストが見たい場合\n" +
-    "全てが見たい場合は、「リスト」と入力し、店ごとに見たい場合は、登録した店舗名を入力する。" +
-    "メニューのボタンを押しても見れる。";
-
-  return message;
 }
