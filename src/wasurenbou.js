@@ -157,7 +157,7 @@ function getTodayList(user_message) {
     for (i = 0; i < list[key].length; i++) {
       sendItem = sendItem + list[key][i] + "\n";
     }
-    sendList.push(key + "で、\n" + sendItem + "を買いなさいな。");
+    sendList.push(key + "で、\n" + sendItem + "を買いなさいな");
   }
   console.log(sendList);
   return sendList;
