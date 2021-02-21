@@ -157,7 +157,7 @@ function getTodayList(user_message) {
     for (i = 0; i < list[key].length; i++) {
       sendItem = sendItem + list[key][i] + "\n";
     }
-    sendList.push(key + "では、\n" + sendItem + "を買いなさいな");
+    sendList.push(key + "で、\n" + sendItem + "を買いなさいな。");
   }
   console.log(sendList);
   return sendList;
@@ -204,7 +204,7 @@ function alertTodayList () {
     reply_messages = ["今日は買うものないよ"];
   } else {
     console.log(todayList);
-    reply_messages = ["今日は,\n" + todayList + "を買いなさいな。"];
+    reply_messages = ["今日は、\n" + todayList];
   }
 
     // メッセージを返信（以下固定）
