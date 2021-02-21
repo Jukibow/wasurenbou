@@ -5,7 +5,7 @@ on:
 　　 #branches: 自分は本番環境用yamlにはこちらを追加して，masterマージのみで反応するようにしてます．
     # - master
     paths:
-      - 'src/index.js' #pushを検知したいパスを書く
+      - 'src/wasurenbou.js' #pushを検知したいパスを書く
 
 jobs:
   deploy:
