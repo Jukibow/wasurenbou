@@ -200,7 +200,7 @@ function alertTodayList () {
   todayList = getTodayList([stores.list]);
 
   // 返信する内容を作成
-  if (todayList == []) {
+  if (todayList.length == 0) {
     reply_messages = ["今日は買うものないよ"];
   } else {
     console.log(todayList);
