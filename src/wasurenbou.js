@@ -1,14 +1,14 @@
 //CHANNEL_ACCESS_TOKENを設定
 //LINE developerで登録をした、CHANNEL_ACCESS_TOKENを入力する
-const CHANNEL_ACCESS_TOKEN = "6fA9vZ5Q+RMVBhxDvIMdPioTPAQyx596gjbihezQOT8grTS2MI98dVcpUFEaevo4yATuqiLeNNa2ky9u0C96GeeYRV8Uaha7mac04Vz0AbKNYFSI0zIqvNvtachlomMIOnsYLoRHSFSSPcm6OKuUjAdB04t89/1O/w1cDnyilFU=";
-const line_endpoint = "https://api.line.me/v2/bot/message/reply";
-const line_endpoint_push = "https://api.line.me/v2/bot/message/push";
-const line_endpoint_broadcast = "https://api.line.me/v2/bot/message/broadcast";
+const CHANNEL_ACCESS_TOKEN = PropertiesService.getScriptProperties().getProperty("CHANNEL_ACCESS_TOKEN");
+const line_endpoint = PropertiesService.getScriptProperties().getProperty("LINE_ENDPOINT_REPLY");
+const line_endpoint_push = PropertiesService.getScriptProperties().getProperty("LINE_ENDPOINT_PUSH");
+const line_endpoint_broadcast = PropertiesService.getScriptProperties().getProperty("LINE_ENDPOINT_BROADCAST");
 
-const userId = "U1085335614a2d94b0536ad93b37aa8a5";
+const userId = PropertiesService.getScriptProperties().getProperty("USER_ID");
 
 //SpreadSheetの取得
-const SS = SpreadsheetApp.openById("1ZmhVDMe59nbHY8IxPTnkRaXGinrrPgl-A1gDK2Z1Msg"); //SpreadsheetのURL
+const SS = SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty("SPLEADSHEET"));
 const sheet = SS.getSheetByName("買い物リスト"); //Spreadsheetのシート名（タブ名）
 const lastrow = sheet.getLastRow();
 const lastcol = sheet.getLastColumn();
@@ -207,7 +207,7 @@ function alertTodayList () {
     reply_messages = ["今日は、\n" + todayList];
   }
 
-    // メッセージを返信（以下固定）
+    // メッセージを配信（以下固定）
   let messages = reply_messages.map(function (v) {
     return {'type': 'text', 'text': v};
   });
