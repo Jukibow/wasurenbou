@@ -185,7 +185,7 @@ function addListFromAlexa(data){
   // スプレッドシートに追加
   sheet.getRange(lastrow + 1, column.store).setValue(store);
   sheet.getRange(lastrow + 1, column.target).setValue(target);
-  sheet.getRange(lastrow + 1, column.date).setValue(getToday());
+  sheet.getRange(lastrow + 1, column.deadline).setValue(getToday());
 }
 
 // 今日の日付を取得
