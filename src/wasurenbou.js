@@ -178,6 +178,16 @@ function addList (user_message) {
   return "success";
 }
 
+// 買い物リストの追加（alexaから）
+function addListFromAlexa(data){
+  let store = data.query_result.store;
+  let target = date.query_result.target;
+  // スプレッドシートに追加
+  sheet.getRange(lastrow + 1, column.store).setValue(store);
+  sheet.getRange(lastrow + 1, column.target).setValue(target);
+  sheet.getRange(lastrow + 1, column.date).setValue(getToday());
+}
+
 // 今日の日付を取得
 function getToday () {
   let date = new Date();
