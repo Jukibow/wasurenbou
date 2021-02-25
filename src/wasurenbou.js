@@ -95,7 +95,6 @@ function doPost(e) {
 
   //返信するためのトークン取得
   let reply_token = json.events[0].replyToken;
-  console.log(reply_token);
   if (typeof reply_token === 'undefined') {
     return;
   }
@@ -105,13 +104,10 @@ function doPost(e) {
 
   let reply_messages = reply(user_message);
 
-  console.log(reply_messages);
-
   // メッセージを返信（以下固定）
   let messages = reply_messages.map(function (v) {
     return {'type': 'text', 'text': v};
   });
-  console.log(messages);
   UrlFetchApp.fetch(line_endpoint, {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
