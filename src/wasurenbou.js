@@ -201,7 +201,6 @@ function getTodayDinner() {
   for (let key in list) {
     sendDinner = key + "\n";
   }
-  console.log(sendList);
   return sendDinner + "の予定です。";
 }
 
