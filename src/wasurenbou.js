@@ -102,7 +102,24 @@ function doPost(e) {
   //送られたLINEメッセージを取得
   let user_message = json.events[0].message.text;
 
-  return reply(user_message);
+  let reply_messages = reply(user_message);
+
+  // メッセージを返信（以下固定）
+  let messages = reply_messages.map(function (v) {
+    return {'type': 'text', 'text': v};
+  });
+  UrlFetchApp.fetch(line_endpoint, {
+    'headers': {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,
+    },
+    'method': 'post',
+    'payload': JSON.stringify({
+      'replyToken': reply_token,
+      'messages': messages,
+    }),
+  });
+  return ContentService.createTextOutput(JSON.stringify({'content': 'post ok'})).setMimeType(ContentService.MimeType.JSON);
 }
 
 function reply(user_message) {
@@ -158,25 +175,7 @@ function reply(user_message) {
   } else {
     reply_messages = [message.error];
   }
-
-
-  // メッセージを返信（以下固定）
-  let messages = reply_messages.map(function (v) {
-    return {'type': 'text', 'text': v};
-  });
-  UrlFetchApp.fetch(line_endpoint, {
-    'headers': {
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,
-    },
-    'method': 'post',
-    'payload': JSON.stringify({
-      'replyToken': reply_token,
-      'messages': messages,
-    }),
-  });
-  return ContentService.createTextOutput(JSON.stringify({'content': 'post ok'})).setMimeType(ContentService.MimeType.JSON);
-
+  return reply_messages;
 }
 
 // 晩ご飯一覧から今日の晩ご飯を出力する
