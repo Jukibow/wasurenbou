@@ -293,7 +293,7 @@ function alertTodayList () {
 
   // 返信する内容を作成
   if (todayList.length == 0) {
-    reply_messages = ["今日は買うものないよ"];
+    reply_messages = ["今日は買うものないよ", getTodayDinner()];
   } else {
     console.log(todayList);
     reply_messages = ["今日は、\n" + todayList, getTodayDinner()];
