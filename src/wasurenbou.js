@@ -202,7 +202,7 @@ function getTodayDinner() {
     sendDinner = key + "\n";
   }
   console.log(sendList);
-  return sendList + "の予定です。";
+  return sendDinner + "の予定です。";
 }
 
 // 買い物リストから今日のリストを出力する
