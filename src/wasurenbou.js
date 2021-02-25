@@ -122,7 +122,7 @@ function doPost(e) {
       reply_messages = [today.getMonth + "月" + getToday().getDate + "日の晩ご飯は何にしますか？"];
     } else if (user_message.indexOf(checkTodayDinner) != -1) {
       // 今日の晩ご飯という単語が入っていれば
-      const todaysDinner =
+      reply_messages = [getTodayDinner()];
     } else {
       // 買い物リスト取得の場合
       todayList = getTodayList(user_message);
