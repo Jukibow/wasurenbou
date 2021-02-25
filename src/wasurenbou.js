@@ -195,11 +195,11 @@ function getTodayDinner() {
   }
   console.log(list);
 
-  if (list.length) return "今日の晩ご飯は決まってません。"
+  if (!list.length) return "今日の晩ご飯は決まってません。"
 
   let sendDinner = "今日の晩ご飯は、\n";
-  for (let key in list) {
-    sendDinner = key + "\n";
+  for (let key of list) {
+    sendDinner = sendDinner + key + "\n";
   }
   return sendDinner + "の予定です。";
 }
