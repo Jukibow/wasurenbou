@@ -140,7 +140,7 @@ function reply(user_message) {
       // 晩ご飯追加の場合
       sheet.status.getRange(1, 1).setValue(statusCd.waitAddDinner);
       const today = getToday();
-      reply_messages = [today.getMonth + "月" + getToday().getDate + "日の晩ご飯は何にしますか？"];
+      reply_messages = [today.getMonth() + "月" + getToday().getDate() + "日の晩ご飯は何にしますか？"];
     } else if (user_message.indexOf(checkTodayDinner) != -1) {
       // 今日の晩ご飯という単語が入っていれば
       reply_messages = [getTodayDinner()];
@@ -170,7 +170,7 @@ function reply(user_message) {
     sheet.dinner.getRange(lastRowForDinner + 1, 1).setValue(user_message[0]);
     sheet.dinner.getRange(lastRowForDinner + 1, 2).setValue(getTodayYYYYMMDD());
     const today = getToday();
-    reply_messages = [today.getMonth + "月" + getToday().getDate + "日の晩ご飯は" + user_message[0] + "に決定！"];
+    reply_messages = [today.getMonth() + "月" + getToday().getDate() + "日の晩ご飯は" + user_message[0] + "に決定！"];
     sheet.status.getRange(1, 1).setValue(statusCd.init);
   } else {
     reply_messages = [message.error];
