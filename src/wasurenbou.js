@@ -9,10 +9,13 @@ const userId = PropertiesService.getScriptProperties().getProperty("USER_ID");
 
 //SpreadSheetの取得
 const SS = SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty("SPLEADSHEET"));
-const sheet = SS.getSheetByName("買い物リスト"); //Spreadsheetのシート名（タブ名）
-const lastrow = sheet.getLastRow();
-const lastcol = sheet.getLastColumn();
-const sheetdata = sheet.getSheetValues(2, 1, lastrow, lastcol);
+const sheet = {
+  buy: SS.getSheetByName("買い物リスト"), //Spreadsheetのシート名（タブ名）
+  dinner: SS.getSheetByName("晩ご飯")
+}
+const lastrow = sheet.buy.getLastRow();
+const lastcol = sheet.buy.getLastColumn();
+const sheetdata = sheet.buy.getSheetValues(2, 1, lastrow, lastcol);
 
 //店舗問合せ
 const stores = {
@@ -130,10 +133,10 @@ function getTodayList(user_message) {
   let today = getToday();
   let list = {};
   for (let i = 2; i < lastrow + 1; i++) {
-    let date = sheet.getRange(i, column.deadline).getValue();
+    let date = sheet.buy.getRange(i, column.deadline).getValue();
     let textStore = user_message[0];
-    let spreadStore = sheet.getRange(i, column.store).getValue();
-    let target = sheet.getRange(i, column.target).getValue();
+    let spreadStore = sheet.buy.getRange(i, column.store).getValue();
+    let target = sheet.buy.getRange(i, column.target).getValue();
     console.log(date);
     // 送られたメッセージが"リスト"なら全て、それ以外なら対応する店を出力対象とする
     if (date == today) {
@@ -168,12 +171,12 @@ function addList (user_message) {
   if (user_message.length < 3 || user_message.length > 4) {
     return "error";
   }
-  sheet.getRange(lastrow + 1, column.store).setValue(user_message[1]);
-  sheet.getRange(lastrow + 1, column.target).setValue(user_message[2]);
+  sheet.buy.getRange(lastrow + 1, column.store).setValue(user_message[1]);
+  sheet.buy.getRange(lastrow + 1, column.target).setValue(user_message[2]);
   if(user_message.length == 4) {
-    sheet.getRange(lastrow + 1, column.deadline).setValue(user_message[3]);
+    sheet.buy.getRange(lastrow + 1, column.deadline).setValue(user_message[3]);
   } else {
-    sheet.getRange(lastrow + 1, column.deadline).setValue(getToday());
+    sheet.buy.getRange(lastrow + 1, column.deadline).setValue(getToday());
   }
   return "success";
 }
@@ -183,9 +186,9 @@ function addListFromAlexa(data){
   let store = data.query_result.store;
   let target = data.query_result.target;
   // スプレッドシートに追加
-  sheet.getRange(lastrow + 1, column.store).setValue(store);
-  sheet.getRange(lastrow + 1, column.target).setValue(target);
-  sheet.getRange(lastrow + 1, column.deadline).setValue(getToday());
+  sheet.buy.getRange(lastrow + 1, column.store).setValue(store);
+  sheet.buy.getRange(lastrow + 1, column.target).setValue(target);
+  sheet.buy.getRange(lastrow + 1, column.deadline).setValue(getToday());
 }
 
 // 今日の日付を取得
