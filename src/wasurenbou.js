@@ -297,7 +297,7 @@ function alertTodayList () {
     reply_messages = ["今日は買うものないよ"];
   } else {
     console.log(todayList);
-    reply_messages = ["今日は、\n" + todayList];
+    reply_messages = ["今日は、\n" + todayList, getTodayDinner()];
   }
 
     // メッセージを配信（以下固定）
