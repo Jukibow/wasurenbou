@@ -1,0 +1,84 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "忘れん坊",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": ["キャンセル"]
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": ["ヘルプ"]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": ["終了"]
+                },
+                {
+                    "name": "WasurenbouIntent",
+                    "slots": [
+                        {
+                            "name": "store",
+                            "type": "store"
+                        },
+                        {
+                            "name": "target",
+                            "type": "target"
+                        }
+                    ],
+                    "samples": [
+                        "{store}に{target}を追加"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                }
+            ],
+            "types": [
+                {
+                    "name": "store",
+                    "values": [
+                        {
+                            "id": "sugi",
+                            "name": {
+                                "value": "スギ薬局",
+                                "synonyms": [
+                                    "すぎやっきょく"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "itoyokado",
+                            "name": {
+                                "value": "イトーヨーカドー",
+                                "synonyms": [
+                                    "いとーよーかどー"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "super",
+                            "name": {
+                                "value": "スーパー",
+                                "synonyms": [
+                                    "すーぱー"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "daiso",
+                            "name": {
+                                "value": "100均",
+                                "synonyms": [
+                                    "ひゃっきん"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
