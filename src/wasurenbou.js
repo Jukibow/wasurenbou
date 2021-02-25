@@ -102,6 +102,10 @@ function doPost(e) {
   //送られたLINEメッセージを取得
   let user_message = json.events[0].message.text;
 
+  return reply(user_message);
+}
+
+function  reply(user_message) {
   // メッセージを分解
   user_message = user_message.split(/[ 　]/);
 
@@ -172,6 +176,7 @@ function doPost(e) {
     }),
   });
   return ContentService.createTextOutput(JSON.stringify({'content': 'post ok'})).setMimeType(ContentService.MimeType.JSON);
+
 }
 
 // 晩ご飯一覧から今日の晩ご飯を出力する
