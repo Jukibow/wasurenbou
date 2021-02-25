@@ -105,13 +105,13 @@ function doPost(e) {
   return reply(user_message);
 }
 
-function  reply(user_message) {
+function reply(user_message) {
   // メッセージを分解
   user_message = user_message.split(/[ 　]/);
 
   let todayList;
   let reply_messages;
-  if (getStatus == status.init) {
+  if (getStatus == statusCd.init) {
     // 初期状態の応答
     if (user_message[0] == help.key) {
       reply_messages = [help.message];
@@ -139,7 +139,7 @@ function  reply(user_message) {
         reply_messages = todayList;
       }
     }
-  } else if (getStatus == status.waitAddList) {
+  } else if (getStatus == statusCd.waitAddList) {
     // 買い物リストの追加待ち
     let result = addList(user_message);
     if(result == "error") {
@@ -148,7 +148,7 @@ function  reply(user_message) {
       reply_messages = [user_message[0] + "に" + user_message[1] + "を登録しました。"]
     }
     sheet.status.getRange(1, 1).setValue(statusCd.init);
-  } else if (getStatus == status.waitAddDinner) {
+  } else if (getStatus == statusCd.waitAddDinner) {
     // 晩ご飯の追加待ち
     sheet.dinner.getRange(lastRowForDinner + 1, 1).setValue(user_message[0]);
     sheet.dinner.getRange(lastRowForDinner + 1, 2).setValue(getTodayYYYYMMDD());
