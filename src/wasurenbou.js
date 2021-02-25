@@ -140,7 +140,9 @@ function reply(user_message) {
       // 晩ご飯追加の場合
       sheet.status.getRange(1, 1).setValue(statusCd.waitAddDinner);
       const today = getToday();
-      reply_messages = [today.getMonth() + "月" + getToday().getDate() + "日の晩ご飯は何にしますか？"];
+      const month = today.getMonth() + 1;
+      const date = getToday().getDate();
+      reply_messages = [month + "月" + date + "日の晩ご飯は何にしますか？"];
     } else if (user_message.indexOf(checkTodayDinner) != -1) {
       // 今日の晩ご飯という単語が入っていれば
       reply_messages = [getTodayDinner()];
