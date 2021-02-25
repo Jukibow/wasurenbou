@@ -170,7 +170,9 @@ function reply(user_message) {
     sheet.dinner.getRange(lastRowForDinner + 1, 1).setValue(user_message[0]);
     sheet.dinner.getRange(lastRowForDinner + 1, 2).setValue(getTodayYYYYMMDD());
     const today = getToday();
-    reply_messages = [today.getMonth() + "月" + getToday().getDate() + "日の晩ご飯は" + user_message[0] + "に決定！"];
+    const month = today.getMonth() + 1;
+    const date = getToday().getDate();
+    reply_messages = [month + "月" + date + "日の晩ご飯は" + user_message[0] + "に決定！"];
     sheet.status.getRange(1, 1).setValue(statusCd.init);
   } else {
     reply_messages = [message.error];
