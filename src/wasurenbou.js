@@ -187,7 +187,7 @@ function getTodayDinner() {
   let today = getTodayYYYYMMDD();
   let list = [];
   for (let i = 2; i < lastRowForBuy + 1; i++) {
-    let date = sheet.buy.getRange(i, 2).getValue();
+    let date = sheet.dinner.getRange(i, 2).getValue();
     console.log(date);
     if (date == today) {
       list.push(sheet.dinner.getRange(i, 1).getValue());
