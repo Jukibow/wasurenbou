@@ -28,7 +28,7 @@ const getStatus = sheet.status.getRange(1, 1).getValue();
 const statusCd = {
   init: sheet.status.getRange(2, 3).getValue(),
   waitAddList: sheet.status.getRange(3, 3).getValue(),
-  waitAddDinner: sheet.status.getRange(3, 4).getValue()
+  waitAddDinner: sheet.status.getRange(4, 3).getValue()
 }
 
 //店舗問合せ
