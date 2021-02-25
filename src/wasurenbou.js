@@ -280,7 +280,7 @@ function getToday () {
 }
 
 function getTodayYYYYMMDD() {
-  date = Utilities.formatDate( getToday(), 'Asia/Tokyo', 'yyyyMMdd');
+  return Utilities.formatDate(getToday(), 'Asia/Tokyo', 'yyyyMMdd');
 }
 
 // 今日の買い物リストをお知らせ
