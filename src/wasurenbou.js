@@ -238,7 +238,6 @@ function getTodayList(user_message) {
     }
     sendList.push(key + "で、\n" + sendItem + "を買いなさいな。");
   }
-  console.log(sendList);
   return sendList;
 }
 
