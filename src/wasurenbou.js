@@ -63,6 +63,7 @@ const alert_holiday = {
 // メッセージ
 const message = {
   error: "何言ってんだおめえ",
+  cancel: "登録をキャンセルしました。"
 }
 
 // リスト追加の合言葉
@@ -73,6 +74,8 @@ const addDinnerMassage = "晩ご飯";
 
 // 晩ご飯表示の合言葉
 const checkTodayDinner = "今日の晩ご飯";
+
+// 登録キャンセルの合言葉
 
 // ヘルプ
 const help = {
@@ -160,21 +163,31 @@ function reply(user_message) {
     }
   } else if (getStatus == statusCd.waitAddList) {
     // 買い物リストの追加待ち
-    let result = addList(user_message);
-    if(result == "error") {
-      reply_messages = [message.error];
+    if (user_message[0] == "キャンセル") {
+      // キャンセルの場合、何もしない
+      reply_messages = [message.cancel];
     } else {
-      reply_messages = [user_message[0] + "に" + user_message[1] + "を登録しました。"]
+      let result = addList(user_message);
+      if(result == "error") {
+        reply_messages = [message.error];
+      } else {
+        reply_messages = [user_message[0] + "に" + user_message[1] + "を登録しました。"]
+      }
     }
     sheet.status.getRange(1, 1).setValue(statusCd.init);
   } else if (getStatus == statusCd.waitAddDinner) {
-    // 晩ご飯の追加待ち
-    sheet.dinner.getRange(lastRowForDinner + 1, 1).setValue(user_message[0]);
-    sheet.dinner.getRange(lastRowForDinner + 1, 2).setValue(getTodayYYYYMMDD());
-    const today = getToday();
-    const month = today.getMonth() + 1;
-    const date = getToday().getDate();
-    reply_messages = [month + "月" + date + "日の晩ご飯は" + user_message[0] + "に決定！"];
+    if (user_message[0] == "キャンセル") {
+      // キャンセルの場合、何もしない
+      reply_messages = [message.cancel];
+    } else {
+      // 晩ご飯の追加待ち
+      sheet.dinner.getRange(lastRowForDinner + 1, 1).setValue(user_message[0]);
+      sheet.dinner.getRange(lastRowForDinner + 1, 2).setValue(getTodayYYYYMMDD());
+      const today = getToday();
+      const month = today.getMonth() + 1;
+      const date = getToday().getDate();
+      reply_messages = [month + "月" + date + "日の晩ご飯は" + user_message[0] + "に決定！"];
+    }
     sheet.status.getRange(1, 1).setValue(statusCd.init);
   } else {
     reply_messages = [message.error];
@@ -186,7 +199,7 @@ function reply(user_message) {
 function getTodayDinner() {
   let today = getTodayYYYYMMDD();
   let list = [];
-  for (let i = 2; i < lastRowForBuy + 1; i++) {
+  for (let i = 2; i < lastRowForDinner + 1; i++) {
     let date = sheet.dinner.getRange(i, 2).getValue();
     console.log(date);
     if (date == today) {
@@ -202,6 +215,11 @@ function getTodayDinner() {
     sendDinner = sendDinner + key + "\n";
   }
   return sendDinner + "の予定です。";
+}
+
+// 登録キャンセル
+function cancelRegister() {
+
 }
 
 // 買い物リストから今日のリストを出力する
