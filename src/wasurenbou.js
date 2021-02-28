@@ -146,7 +146,7 @@ function reply(user_message) {
       const month = today.getMonth() + 1;
       const date = getToday().getDate();
       reply_messages = [month + "月" + date + "日の晩ご飯は何にしますか？"];
-    } else if (user_message.indexOf(checkTodayDinner) != -1) {
+    } else if (user_message[0].indexOf(checkTodayDinner) != -1) {
       // 今日の晩ご飯という単語が入っていれば
       reply_messages = [getTodayDinner()];
     } else {
