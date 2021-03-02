@@ -287,7 +287,7 @@ function addListFromAlexa(data){
 // 今日の日付を取得
 function getToday () {
   let date = new Date();
-  let time = Utilities.formatDate( date, 'Asia/Tokyo', 'hhmm');
+  let time = Utilities.formatDate( date, 'Asia/Tokyo', 'HHmm');
   if (time > toNextDay) {
     // 19時以降は次の日の買い物リストとして加算
     date.setDate(date.getDate() + 1);
